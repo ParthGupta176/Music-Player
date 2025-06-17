@@ -1,0 +1,134 @@
+/* Fonts & Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: #121212;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Layout */
+.app {
+  display: flex;
+  flex: 1;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background: #1c1c1c;
+  padding: 30px 20px;
+  min-height: 100vh;
+}
+
+.sidebar h2 {
+  color: #1db954;
+  margin-bottom: 30px;
+  font-size: 1.8rem;
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar li {
+  padding: 12px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.sidebar li:hover,
+.sidebar li.active {
+  background: #333;
+  color: #1db954;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 40px;
+  background: linear-gradient(135deg, #1e1f26, #2a2b38);
+}
+
+.main-content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #fff;
+}
+
+.mood-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 20px;
+}
+
+.mood-card {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(6px);
+  border-radius: 12px;
+  padding: 30px 20px;
+  text-align: center;
+  font-size: 1.3rem;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.mood-card:hover {
+  background: #1db954;
+  color: #000;
+  transform: translateY(-5px) scale(1.05);
+}
+
+/* Footer Player */
+.footer-player {
+  background: #181818;
+  padding: 15px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+audio {
+  flex: 1;
+  max-width: 600px;
+}
+
+.visualizer {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #1db954;
+  box-shadow: 0 0 20px #1db954;
+  transition: transform 0.1s;
+}
+
+/* Mood Themes */
+body.happy    { background: linear-gradient(135deg, #fbc2eb, #a6c1ee); }
+body.sad      { background: linear-gradient(135deg, #667db6, #485563); }
+body.angry    { background: linear-gradient(135deg, #ff0844, #ffb199); }
+body.relaxed  { background: linear-gradient(135deg, #93a5cf, #e4efe9); }
+body.romantic { background: linear-gradient(135deg, #ff9a9e, #fad0c4); }
+
+@media (max-width: 700px) {
+  .sidebar {
+    display: none;
+  }
+
+  .main-content {
+    padding: 20px;
+  }
+
+  .mood-card {
+    font-size: 1rem;
+    padding: 20px 15px;
+  }
+}
