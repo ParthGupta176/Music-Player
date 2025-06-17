@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vibify – Mood Music</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>🎵 Vibify</h2>
+      <ul>
+        <li class="active">Home</li>
+        <li>Browse</li>
+        <li>Library</li>
+        <li>About</li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <h1>What's Your Mood?</h1>
+      <div class="mood-grid">
+        <div class="mood-card" data-mood="happy">😊 Happy</div>
+        <div class="mood-card" data-mood="sad">😢 Sad</div>
+        <div class="mood-card" data-mood="angry">😡 Angry</div>
+        <div class="mood-card" data-mood="relaxed">😌 Relaxed</div>
+        <div class="mood-card" data-mood="romantic">💖 Romantic</div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Footer Player -->
+  <footer class="footer-player">
+    <audio id="player" controls></audio>
+    <div class="visualizer"></div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
