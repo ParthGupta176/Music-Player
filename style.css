@@ -1,3 +1,4 @@
+style.css
 /* Fonts & Reset */
 * {
   margin: 0;
@@ -12,6 +13,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  animation: bgMove 20s ease infinite;
 }
 
 /* Layout */
@@ -71,7 +73,7 @@ body {
 }
 
 .mood-card {
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(6px);
   border-radius: 12px;
   padding: 30px 20px;
@@ -112,11 +114,25 @@ audio {
 }
 
 /* Mood Themes */
-body.happy    { background: linear-gradient(135deg, #fbc2eb, #a6c1ee); }
-body.sad      { background: linear-gradient(135deg, #667db6, #485563); }
-body.angry    { background: linear-gradient(135deg, #ff0844, #ffb199); }
-body.relaxed  { background: linear-gradient(135deg, #93a5cf, #e4efe9); }
-body.romantic { background: linear-gradient(135deg, #ff9a9e, #fad0c4); }
+body.happy {
+  background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+}
+
+body.sad {
+  background: linear-gradient(135deg, #667db6, #485563);
+}
+
+body.angry {
+  background: linear-gradient(135deg, #ff0844, #ffb199);
+}
+
+body.relaxed {
+  background: linear-gradient(135deg, #93a5cf, #e4efe9);
+}
+
+body.romantic {
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+}
 
 @media (max-width: 700px) {
   .sidebar {
@@ -131,4 +147,133 @@ body.romantic { background: linear-gradient(135deg, #ff9a9e, #fad0c4); }
     font-size: 1rem;
     padding: 20px 15px;
   }
+}
+
+/* Header */
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1c1c1c;
+  padding: 15px 30px;
+  border-bottom: 1px solid #333;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+
+.auth-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+}
+
+.login-btn {
+  background: transparent;
+  color: #fff;
+  border: 1px solid #1db954;
+}
+
+.signup-btn {
+  background: #1db954;
+  color: #000;
+}
+
+.login-btn:hover,
+.signup-btn:hover {
+  transform: scale(1.05);
+}
+
+body.light {
+  background: #f7f7f7;
+  color: #111;
+}
+
+body.light .sidebar,
+body.light .main-header,
+body.light .footer-player {
+  background: #ffffff;
+  color: #111;
+}
+
+body.light .mood-card {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+body.light .sidebar li:hover,
+body.light .sidebar li.active {
+  background: #ddd;
+  color: #1db954;
+}
+
+.spotifyPlaylists{
+  padding: 16px;
+}
+.cardContainer{
+  margin: 30px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.card{
+  width: 200px;
+  padding: 10px;
+  background-color: #2a2b38;
+  border-radius: 5px;
+  color: white;
+  position: relative;
+}
+.card>*{
+  padding-top: 3px;
+}
+.card:hover {
+  transform: scale(1.03);
+  cursor: pointer;
+}
+.imageContainer {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.card img{
+  width: 100%;
+  object-fit: contain;
+}
+.play-btn {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: #1db954;
+  color: black;
+  font-size: 18px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.3s ease;
+}
+
+.imageContainer:hover .play-btn {
+  opacity: 1;
+  transform: scale(1);
 }

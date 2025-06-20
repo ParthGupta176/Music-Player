@@ -1,12 +1,28 @@
+index.html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vibify – Mood Music</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
+  <!-- Header -->
+  <header class="main-header">
+    <div class="nav-buttons">
+      <!-- Optional: Add arrows here -->
+    </div>
+    <div class="auth-buttons">
+      <button id="themeToggle" class="btn">🌙 Dark Mode</button>
+      <button class="btn login-btn">Login</button>
+      <button class="btn signup-btn">Sign Up</button>
+    </div>
+  </header>
+
+
   <div class="app">
     <!-- Sidebar -->
     <aside class="sidebar">
@@ -29,6 +45,62 @@
         <div class="mood-card" data-mood="relaxed">😌 Relaxed</div>
         <div class="mood-card" data-mood="romantic">💖 Romantic</div>
       </div>
+      <div class="spotifyPlaylists">
+        <h1>Spotify Playlists</h1>
+        <div class="cardContainer">
+          <div class="card border">
+            <div class="imageContainer">
+              <img
+              src="https://cdn-images.dzcdn.net/images/cover/49d2bb63aabe4ab8ae358896c14e302a/0x1900-000000-80-0-0.jpg"
+              height="200" width="250">
+              <div class="play-btn">▶</div>
+            </div>
+            <h2>Happy Hits</h2>
+            <p>to boost your mood and fill you with happiness</p>
+          </div>
+
+          <div class="card border">
+            <div class="imageContainer">
+              <img
+              src="https://cms-assets.tutsplus.com/uploads/users/30/posts/35608/preview_image/chill-lofi.jpg"
+              height="200" width="250">
+              <div class="play-btn">▶</div>
+            </div>
+            <h2>Lofi Chill</h2>
+            <p>Lazy slow lofi beats for laid-back moments</p>
+          </div>
+
+          <div class="card border">
+            <div class="imageContainer">
+              <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoDiU7jHv-4SetqBa1aQxm0-FwHB0dUAJp6g&s
+              height="200" width="250">
+              <div class="play-btn">▶</div>
+            </div>
+            <h2>Calming Acoustic</h2>
+            <p>Keep calm with instrumental acoustic</p>
+          </div>
+
+          <div class="card border">
+            <div class="imageContainer">
+              <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJnyQDTz79UCkGkfFbjkbD2M8zURSscZB4CA&s"
+              height="200" width="250">
+              <div class="play-btn">▶</div>
+            </div>
+            <h2>Punjabi Hits</h2>
+            <p>Vibing to the punjabi songs</p>
+          </div>
+
+          
+
+          
+
+        </div>
+
+      </div>
+
+
     </main>
   </div>
 
@@ -40,4 +112,5 @@
 
   <script src="script.js"></script>
 </body>
+
 </html>
