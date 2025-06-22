@@ -303,7 +303,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function formatTime(seconds) {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
-    return "${mins}:${secs < 10 ? '0' : ''}${secs}";
+    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
   }
 
   // Update Queue UI
