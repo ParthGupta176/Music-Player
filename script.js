@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
       title: "Perfect",
       artist: "Ed Sheeran",
       cover: "perfect.jpeg",
-      audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3",
+      audio: "songs/perfect.mp3",
       duration: "4:23",
       mood: "romantic"
     }
