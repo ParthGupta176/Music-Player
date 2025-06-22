@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
       title: "Blinding Lights",
       artist: "The Weeknd",
       cover: "blinding light.jpeg",
-      audio: "https://youtu.be/34Na4j8AVgA?si=FvfXjDQjFoX445IJ",
+      audio: "songs/blinding lights.mp3",
       duration: "3:20",
       mood: "happy"
     },
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
       title: "Save Your Tears",
       artist: "The Weeknd",
       cover: "save your tears.jpeg",
-      audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+      audio: "songs/save your tears.mp3",
       duration: "3:35",
       mood: "happy"
     },
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
       title: "All of Me",
       artist: "John Legend",
       cover: "all of me.jpeg",
-      audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
+      audio: "songs/all of me.mp3",
       duration: "4:29",
       mood: "romantic"
     },
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
       title: "Shape of You",
       artist: "Ed Sheeran",
       cover: "shape of you.jpeg",
-      audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
+      audio: "songs/shape of you.mp3",
       duration: "3:53",
       mood: "happy"
     },
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
       title: "Believer",
       artist: "Imagine Dragons",
       cover: "believer.jpeg",
-      audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3",
+      audio: "songs/believer.mp3",
       duration: "3:24",
       mood: "energetic"
     },
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
       title: "Starboy",
       artist: "The Weeknd, Daft Punk",
       cover: "starboy.jpg",
-      audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3",
+      audio: "songs/starboy.mp3",
       duration: "3:50",
       mood: "energetic"
     },
@@ -303,7 +303,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function formatTime(seconds) {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    return "${mins}:${secs < 10 ? '0' : ''}${secs}";
   }
 
   // Update Queue UI
