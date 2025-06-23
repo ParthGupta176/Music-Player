@@ -11,6 +11,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const progressContainer = document.querySelector('.progress-container');
   const currentTimeEl = document.getElementById('currentTime');
   const totalTimeEl = document.getElementById('totalTime');
+  const minutesPlayed = document.getElementById('minutesPlayed');
+  const minutesLeft = document.getElementById('minutesLeft');
+  const repeatBtn = document.getElementById('repeatBtn');
   const volumeControl = document.getElementById('volumeControl');
   const queueBtn = document.querySelector('.btn-queue');
   const queueModal = document.getElementById('queueModal');
@@ -36,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
       title: "Blinding Lights",
       artist: "The Weeknd",
       cover: "blinding light.jpeg",
-      audio: "songs/blinding lights.mp3",
+      audio: "Blinding Lights.mp3",
       duration: "3:20",
       mood: "happy"
     },
@@ -44,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
       title: "Save Your Tears",
       artist: "The Weeknd",
       cover: "save your tears.jpeg",
-      audio: "songs/save your tears.mp3",
+      audio: "Save Your Tears.mp3",
       duration: "3:35",
       mood: "happy"
     },
@@ -52,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
       title: "Soulmate",
       artist: "badshah, arijit singh",
       cover: "soulmate.png",
-      audio: "songs/soulmate.mp3",
+      audio: "soulmate.mp3",
       duration: "3:34",
       mood: "energetic"
     },
@@ -60,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
       title: "All of Me",
       artist: "John Legend",
       cover: "all of me.jpeg",
-      audio: "songs/all of me.mp3",
+      audio: "all of me.mp3",
       duration: "4:29",
       mood: "romantic"
     },
@@ -68,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
       title: "Shape of You",
       artist: "Ed Sheeran",
       cover: "shape of you.jpeg",
-      audio: "songs/shape of you.mp3",
+      audio: "shape of you.mp3",
       duration: "3:53",
       mood: "happy"
     },
@@ -76,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
       title: "Believer",
       artist: "Imagine Dragons",
       cover: "believer.jpeg",
-      audio: "songs/believer.mp3",
+      audio: "believer.mp3",
       duration: "3:24",
       mood: "energetic"
     },
@@ -84,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
       title: "Starboy",
       artist: "The Weeknd, Daft Punk",
       cover: "starboy.jpg",
-      audio: "songs/starboy.mp3",
+      audio: "starboy.mp3",
       duration: "3:50",
       mood: "energetic"
     },
@@ -92,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
       title: "Perfect",
       artist: "Ed Sheeran",
       cover: "perfect.jpeg",
-      audio: "songs/perfect.mp3",
+      audio: "Perfect.mp3",
       duration: "4:23",
       mood: "romantic"
     }
@@ -280,11 +283,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Update Progress Bar
   function updateProgress(e) {
-    const { duration, currentTime } = e.srcElement;
-    const progressPercent = (currentTime / duration) * 100;
-    progress.style.width = '${progressPercent}%';
-    currentTimeEl.textContent = formatTime(currentTime);
-  }
+  const { duration, currentTime } = e.srcElement;
+  const progressPercent = (currentTime / duration) * 100;
+  progress.style.width = `${progressPercent}%`;
+  currentTimeEl.textContent = formatTime(currentTime);
+
+  // Update played and left times
+  minutesPlayed.textContent = formatTime(currentTime);
+  minutesLeft.textContent = formatTime(duration - currentTime);
+}
 
   // Set Progress
   function setProgress(e) {
@@ -301,10 +308,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Format Time
   function formatTime(seconds) {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return "${mins}:${secs < 10 ? '0' : ''}${secs}";
+  if (isNaN(seconds) || seconds < 0) return "0:00";
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
   }
+
 
   // Update Queue UI
   function updateQueueUI() {
@@ -388,7 +397,15 @@ document.addEventListener('DOMContentLoaded', function() {
   nextBtn.addEventListener('click', nextSong);
 
   audioPlayer.addEventListener('timeupdate', updateProgress);
-  audioPlayer.addEventListener('ended', nextSong);
+  audioPlayer.addEventListener('ended', function () {
+  if (isRepeated) {
+    audioPlayer.currentTime = 0;
+    audioPlayer.play();
+  } else {
+    nextSong();
+  }
+});
+
   audioPlayer.addEventListener('loadedmetadata', () => {
     totalTimeEl.textContent = formatTime(audioPlayer.duration);
   });
@@ -420,12 +437,17 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   stopBtn.addEventListener('click', function () {
-    audioPlayer.pause();                // Pause the audio
-    audioPlayer.currentTime = 0;        // Reset to start
-    progress.style.width = '0%';        // Reset progress bar
-    currentTime.textContent = '0:00';   // Reset time
-    playBtn.innerHTML = '<i class="fas fa-play"></i>'; // Update play button
-  });
+  audioPlayer.pause(); // Just pause it
+  isPlaying = false;
+  playBtn.innerHTML = '<i class="fas fa-play"></i>';
+});
+
+  repeatBtn.addEventListener('click', function () {
+  isRepeated = !isRepeated;
+  repeatBtn.classList.toggle('active');
+  repeatBtn.style.color = isRepeated ? '#1db954' : ''; // Optional visual feedback
+});
+
 
   // Load saved preferences
   if (localStorage.getItem('theme') === 'light') {
