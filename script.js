@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   // DOM Elements
   const themeToggle = document.getElementById('themeToggle');
   const moodCards = document.querySelectorAll('.mood-card');
@@ -11,9 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const progressContainer = document.querySelector('.progress-container');
   const currentTimeEl = document.getElementById('currentTime');
   const totalTimeEl = document.getElementById('totalTime');
-  const minutesPlayed = document.getElementById('minutesPlayed');
-  const minutesLeft = document.getElementById('minutesLeft');
-  const repeatBtn = document.getElementById('repeatBtn');
   const volumeControl = document.getElementById('volumeControl');
   const queueBtn = document.querySelector('.btn-queue');
   const queueModal = document.getElementById('queueModal');
@@ -32,72 +29,79 @@ document.addEventListener('DOMContentLoaded', function() {
   let isShuffled = false;
   let isRepeated = false;
   let queue = [];
-  
-  // Sample Data
+
   const songs = [
     {
       title: "Blinding Lights",
       artist: "The Weeknd",
       cover: "blinding light.jpeg",
-      audio: "Blinding Lights.mp3",
+      audio: "songs/blinding lights.mp3",
       duration: "3:20",
-      mood: "happy"
+      mood: "happy",
+      liked: false
     },
     {
       title: "Save Your Tears",
       artist: "The Weeknd",
       cover: "save your tears.jpeg",
-      audio: "Save Your Tears.mp3",
+      audio: "songs/save your tears.mp3",
       duration: "3:35",
-      mood: "happy"
+      mood: "happy",
+      liked: false
     },
     {
       title: "Soulmate",
       artist: "badshah, arijit singh",
       cover: "soulmate.png",
-      audio: "soulmate.mp3",
+      audio: "songs/soulmate.mp3",
       duration: "3:34",
-      mood: "energetic"
+      mood: "energetic",
+      liked: false
     },
     {
       title: "All of Me",
       artist: "John Legend",
       cover: "all of me.jpeg",
-      audio: "all of me.mp3",
+      audio: "songs/all of me.mp3",
       duration: "4:29",
-      mood: "romantic"
+      mood: "romantic",
+      liked: false
     },
     {
       title: "Shape of You",
       artist: "Ed Sheeran",
       cover: "shape of you.jpeg",
-      audio: "shape of you.mp3",
+      audio: "songs/shape of you.mp3",
       duration: "3:53",
-      mood: "happy"
+      mood: "happy",
+      liked: false
     },
     {
       title: "Believer",
       artist: "Imagine Dragons",
       cover: "believer.jpeg",
-      audio: "believer.mp3",
+      audio: "songs/believer.mp3",
       duration: "3:24",
-      mood: "energetic"
+      mood: "energetic",
+      liked: false
     },
     {
       title: "Starboy",
       artist: "The Weeknd, Daft Punk",
       cover: "starboy.jpg",
-      audio: "starboy.mp3",
+      audio: "songs/starboy.mp3",
       duration: "3:50",
-      mood: "energetic"
+      mood: "energetic",
+      liked: false
     },
     {
       title: "Perfect",
       artist: "Ed Sheeran",
       cover: "perfect.jpeg",
-      audio: "Perfect.mp3",
+      audio: "songs/perfect.mp3",
       duration: "4:23",
-      mood: "romantic"
+      mood: "romantic",
+      liked: false
     }
   ];
 
@@ -106,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
       title: "Happy Hits",
       description: "Boost your mood with these tracks",
       cover: "happy hits.png",
-      songs: [0, 1, 4] // Indexes from songs array
+      songs: [0, 1, 4]
     },
     {
       title: "Chill Vibes",
@@ -128,33 +132,30 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   ];
 
-  // Initialize App
   function init() {
+    loadLikedSongs();
     renderSongs();
     renderPlaylists();
     updatePlayerUI();
     setVolume();
-    
-    // Set first song as default
+    updateLikedSongs();
+
     if (songs.length > 0) {
       queue = [...songs];
       loadSong(queue[currentSongIndex]);
     }
   }
 
-  // Render Songs
   function renderSongs() {
     songGrid.innerHTML = '';
-    
-    // Get 6 random songs for recommended section
     const shuffled = [...songs].sort(() => 0.5 - Math.random());
     const recommended = shuffled.slice(0, 6);
-    
+
     recommended.forEach((song, index) => {
       const songEl = document.createElement('div');
       songEl.className = 'song-card';
       songEl.dataset.index = index;
-      
+
       songEl.innerHTML = `
         <div class="card-image">
           <img src="${song.cover}" alt="${song.title}">
@@ -165,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <p>${song.artist}</p>
         </div>
       `;
-      
+
       songEl.addEventListener('click', () => {
         const songIndex = songs.findIndex(s => s.title === song.title);
         if (songIndex !== -1) {
@@ -174,19 +175,18 @@ document.addEventListener('DOMContentLoaded', function() {
           playSong();
         }
       });
-      
+
       songGrid.appendChild(songEl);
     });
   }
 
-  // Render Playlists
   function renderPlaylists() {
     playlistGrid.innerHTML = '';
-    
+
     playlists.forEach(playlist => {
       const playlistEl = document.createElement('div');
       playlistEl.className = 'playlist-card';
-      
+
       playlistEl.innerHTML = `
         <div class="card-image">
           <img src="${playlist.cover}" alt="${playlist.title}">
@@ -197,57 +197,49 @@ document.addEventListener('DOMContentLoaded', function() {
           <p>${playlist.description}</p>
         </div>
       `;
-      
+
       playlistEl.addEventListener('click', () => {
-        // Add all playlist songs to queue
         queue = playlist.songs.map(index => songs[index]);
         currentSongIndex = 0;
         loadSong(queue[currentSongIndex]);
         playSong();
         updateQueueUI();
       });
-      
+
       playlistGrid.appendChild(playlistEl);
     });
   }
 
-  // Update Player UI
   function updatePlayerUI() {
     const song = queue[currentSongIndex] || {};
     currentSongTitle.textContent = song.title || 'Not Playing';
     currentSongArtist.textContent = song.artist || 'Select a song';
     currentAlbumCover.src = song.cover || '';
     currentAlbumCover.alt = song.title || '';
-    
-    // Update progress bar max time
+
     if (audioPlayer.duration) {
       totalTimeEl.textContent = formatTime(audioPlayer.duration);
     }
   }
 
-  // Load Song
   function loadSong(song) {
     if (!song) return;
-    
     audioPlayer.src = song.audio;
     audioPlayer.load();
     updatePlayerUI();
-    
-    // If was playing, continue playing
     if (isPlaying) {
       audioPlayer.play().catch(e => console.log('Playback error:', e));
     }
+    updateLikeButtonUI(song);
   }
 
-  // Play Song
   function playSong() {
     isPlaying = true;
     audioPlayer.play().catch(e => console.log('Playback error:', e));
     playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-    document.title = '▶ ${queue[currentSongIndex].title} - Vibify';
+    document.title = `▶ ${queue[currentSongIndex].title} - Vibify`;
   }
 
-  // Pause Song
   function pauseSong() {
     isPlaying = false;
     audioPlayer.pause();
@@ -255,45 +247,33 @@ document.addEventListener('DOMContentLoaded', function() {
     document.title = 'Vibify - Mood Music Player';
   }
 
-  // Previous Song
   function prevSong() {
     currentSongIndex--;
-    if (currentSongIndex < 0) {
-      currentSongIndex = queue.length - 1;
-    }
+    if (currentSongIndex < 0) currentSongIndex = queue.length - 1;
     loadSong(queue[currentSongIndex]);
     if (isPlaying) playSong();
   }
 
-  // Next Song
   function nextSong() {
     if (isRepeated) {
       audioPlayer.currentTime = 0;
       audioPlayer.play();
       return;
     }
-    
+
     currentSongIndex++;
-    if (currentSongIndex > queue.length - 1) {
-      currentSongIndex = 0;
-    }
+    if (currentSongIndex >= queue.length) currentSongIndex = 0;
     loadSong(queue[currentSongIndex]);
     if (isPlaying) playSong();
   }
 
-  // Update Progress Bar
   function updateProgress(e) {
-  const { duration, currentTime } = e.srcElement;
-  const progressPercent = (currentTime / duration) * 100;
-  progress.style.width = `${progressPercent}%`;
-  currentTimeEl.textContent = formatTime(currentTime);
+    const { duration, currentTime } = e.srcElement;
+    const percent = (currentTime / duration) * 100;
+    progress.style.width = `${percent}%`;
+    currentTimeEl.textContent = formatTime(currentTime);
+  }
 
-  // Update played and left times
-  minutesPlayed.textContent = formatTime(currentTime);
-  minutesLeft.textContent = formatTime(duration - currentTime);
-}
-
-  // Set Progress
   function setProgress(e) {
     const width = this.clientWidth;
     const clickX = e.offsetX;
@@ -301,29 +281,22 @@ document.addEventListener('DOMContentLoaded', function() {
     audioPlayer.currentTime = (clickX / width) * duration;
   }
 
-  // Set Volume
   function setVolume() {
     audioPlayer.volume = volumeControl.value / 100;
   }
 
-  // Format Time
   function formatTime(seconds) {
-  if (isNaN(seconds) || seconds < 0) return "0:00";
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
   }
 
-
-  // Update Queue UI
   function updateQueueUI() {
     queueList.innerHTML = '';
-    
     queue.forEach((song, index) => {
-      const queueItem = document.createElement('div');
-      queueItem.className = "queue-item ${index === currentSongIndex ? 'active' : ''}";
-      
-      queueItem.innerHTML = `
+      const item = document.createElement('div');
+      item.className = `queue-item ${index === currentSongIndex ? 'active' : ''}`;
+      item.innerHTML = `
         <img src="${song.cover}" alt="${song.title}">
         <div class="queue-item-info">
           <h4>${song.title}</h4>
@@ -331,59 +304,96 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
         <div class="queue-item-duration">${song.duration}</div>
       `;
-      
-      queueItem.addEventListener('click', () => {
+      item.addEventListener('click', () => {
         currentSongIndex = index;
         loadSong(queue[currentSongIndex]);
         playSong();
         updateQueueUI();
       });
-      
-      queueList.appendChild(queueItem);
+      queueList.appendChild(item);
     });
   }
 
-  // Toggle Theme
+  function toggleLikeCurrent() {
+    const song = queue[currentSongIndex];
+    song.liked = !song.liked;
+    updateLikeButtonUI(song);
+    updateLikedSongs();
+    saveLikedSongs();
+  }
+
+  function updateLikeButtonUI(song) {
+    likeBtn.classList.toggle('active', song.liked);
+    likeBtn.innerHTML = song.liked ? '<i class="fas fa-heart"></i>' : '<i class="far fa-heart"></i>';
+  }
+
+  function updateLikedSongs() {
+    const grid = document.getElementById('likedSongsGrid');
+    grid.innerHTML = '';
+    songs.filter(s => s.liked).forEach(song => {
+      const div = document.createElement('div');
+      div.className = 'song-card';
+      div.innerHTML = `
+        <div class="card-image">
+          <img src="${song.cover}" alt="${song.title}">
+          <div class="play-btn"><i class="fas fa-play"></i></div>
+        </div>
+        <div class="card-info">
+          <h3>${song.title}</h3>
+          <p>${song.artist}</p>
+        </div>
+      `;
+      div.addEventListener('click', () => {
+        currentSongIndex = queue.findIndex(s => s.title === song.title);
+        if (currentSongIndex === -1) {
+          queue.push(song);
+          currentSongIndex = queue.length - 1;
+        }
+        loadSong(queue[currentSongIndex]);
+        playSong();
+      });
+      grid.appendChild(div);
+    });
+  }
+
+  function saveLikedSongs() {
+    const likedTitles = songs.filter(s => s.liked).map(s => s.title);
+    localStorage.setItem('likedSongs', JSON.stringify(likedTitles));
+  }
+
+  function loadLikedSongs() {
+    const likedTitles = JSON.parse(localStorage.getItem('likedSongs')) || [];
+    songs.forEach(song => {
+      song.liked = likedTitles.includes(song.title);
+    });
+  }
+
   function toggleTheme() {
     document.body.classList.toggle('light');
     const isLight = document.body.classList.contains('light');
-    themeToggle.innerHTML = isLight 
-      ? '<i class="fas fa-moon"></i> Dark Mode' 
+    themeToggle.innerHTML = isLight
+      ? '<i class="fas fa-moon"></i> Dark Mode'
       : '<i class="fas fa-sun"></i> Light Mode';
-    
-    // Save preference to localStorage
     localStorage.setItem('theme', isLight ? 'light' : 'dark');
   }
 
-  // Set Mood
   function setMood(mood) {
-    // Remove all mood classes
     document.body.className = '';
-    
-    // Add selected mood class
     document.body.classList.add(mood);
-    
-    // Filter songs by mood
     queue = songs.filter(song => song.mood === mood);
     currentSongIndex = 0;
-    
     if (queue.length > 0) {
       loadSong(queue[currentSongIndex]);
       playSong();
     }
-    
-    // Save mood to localStorage
     localStorage.setItem('mood', mood);
   }
 
-  // Event Listeners
   themeToggle.addEventListener('click', toggleTheme);
 
   moodCards.forEach(card => {
     card.addEventListener('click', () => {
       setMood(card.dataset.mood);
-      
-      // Update active card
       moodCards.forEach(c => c.classList.remove('active'));
       card.classList.add('active');
     });
@@ -397,15 +407,7 @@ document.addEventListener('DOMContentLoaded', function() {
   nextBtn.addEventListener('click', nextSong);
 
   audioPlayer.addEventListener('timeupdate', updateProgress);
-  audioPlayer.addEventListener('ended', function () {
-  if (isRepeated) {
-    audioPlayer.currentTime = 0;
-    audioPlayer.play();
-  } else {
-    nextSong();
-  }
-});
-
+  audioPlayer.addEventListener('ended', nextSong);
   audioPlayer.addEventListener('loadedmetadata', () => {
     totalTimeEl.textContent = formatTime(audioPlayer.duration);
   });
@@ -422,34 +424,23 @@ document.addEventListener('DOMContentLoaded', function() {
     queueModal.classList.remove('active');
   });
 
-  likeBtn.addEventListener('click', () => {
-    likeBtn.classList.toggle('active');
-    likeBtn.innerHTML = likeBtn.classList.contains('active') 
-      ? '<i class="fas fa-heart"></i>' 
-      : '<i class="far fa-heart"></i>';
-  });
-
-  // Close modal when clicking outside
-  window.addEventListener('click', (e) => {
+  window.addEventListener('click', e => {
     if (e.target === queueModal) {
       queueModal.classList.remove('active');
     }
   });
 
-  stopBtn.addEventListener('click', function () {
-  audioPlayer.pause(); // Just pause it
-  isPlaying = false;
-  playBtn.innerHTML = '<i class="fas fa-play"></i>';
-});
+  stopBtn.addEventListener('click', () => {
+    audioPlayer.pause();
+    audioPlayer.currentTime = 0;
+    progress.style.width = '0%';
+    currentTimeEl.textContent = '0:00';
+    playBtn.innerHTML = '<i class="fas fa-play"></i>';
+  });
 
-  repeatBtn.addEventListener('click', function () {
-  isRepeated = !isRepeated;
-  repeatBtn.classList.toggle('active');
-  repeatBtn.style.color = isRepeated ? '#1db954' : ''; // Optional visual feedback
-});
+  likeBtn.addEventListener('click', toggleLikeCurrent);
 
-
-  // Load saved preferences
+  // Load preferences
   if (localStorage.getItem('theme') === 'light') {
     document.body.classList.add('light');
     themeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
@@ -458,8 +449,6 @@ document.addEventListener('DOMContentLoaded', function() {
   if (localStorage.getItem('mood')) {
     const savedMood = localStorage.getItem('mood');
     document.body.classList.add(savedMood);
-    
-    // Highlight the active mood card
     moodCards.forEach(card => {
       if (card.dataset.mood === savedMood) {
         card.classList.add('active');
@@ -467,6 +456,5 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Initialize the app
   init();
 });
