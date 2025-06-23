@@ -49,12 +49,12 @@ document.addEventListener('DOMContentLoaded', function() {
       mood: "happy"
     },
     {
-      title: "Someone Like You",
-      artist: "Adele",
-      cover: "someone like you.jpeg",
-      audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
-      duration: "4:45",
-      mood: "sad"
+      title: "Soulmate",
+      artist: "badshah, arijit singh",
+      cover: "soulmate.png",
+      audio: "songs/soulmate.mp3",
+      duration: "3:34",
+      mood: "energetic"
     },
     {
       title: "All of Me",
