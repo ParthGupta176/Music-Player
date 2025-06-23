@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-  // DOM Elements
   const themeToggle = document.getElementById('themeToggle');
   const moodCards = document.querySelectorAll('.mood-card');
   const audioPlayer = document.getElementById('audioPlayer');
@@ -7,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const playBtn = document.getElementById('playBtn');
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
+  const repeatBtn = document.getElementById('repeatBtn');
   const progress = document.getElementById('progress');
   const progressContainer = document.querySelector('.progress-container');
   const currentTimeEl = document.getElementById('currentTime');
@@ -22,14 +22,14 @@ document.addEventListener('DOMContentLoaded', function () {
   const currentAlbumCover = document.getElementById('currentAlbumCover');
   const songGrid = document.querySelector('.song-grid');
   const playlistGrid = document.querySelector('.playlist-grid');
+  const back10Btn = document.getElementById('back10Btn');
+  const forward10Btn = document.getElementById('forward10Btn');
 
-  // App State
   let currentSongIndex = 0;
   let isPlaying = false;
   let isShuffled = false;
-  let isRepeated = false;
+  let stopToggled = false;
   let queue = [];
-  let stopToggled = false; // Track stop button toggle state
 
   const songs = [
     {
@@ -235,14 +235,12 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function playSong() {
-    audioPlayer.play()
-      .then(() => {
-        isPlaying = true;
-        stopToggled = false;
-        playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-        document.title = `▶ ${queue[currentSongIndex].title} - Vibify`;
-      })
-      .catch(e => console.log('Playback error:', e));
+    audioPlayer.play().then(() => {
+      isPlaying = true;
+      stopToggled = false;
+      playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+      document.title = `▶ ${queue[currentSongIndex].title} - Vibify`;
+    }).catch(e => console.log('Playback error:', e));
   }
 
   function pauseSong() {
@@ -261,12 +259,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function nextSong() {
-    if (isRepeated) {
-      audioPlayer.currentTime = 0;
-      audioPlayer.play();
-      return;
-    }
-
     currentSongIndex++;
     if (currentSongIndex >= queue.length) currentSongIndex = 0;
     loadSong(queue[currentSongIndex]);
@@ -275,6 +267,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function updateProgress(e) {
     const { duration, currentTime } = e.srcElement;
+    const percent = (currentTime / duration) * 100;
+    progress.style.width = `${percent}%`;
+    currentTimeEl.textContent = formatTime(currentTime);
+  }
+
+  function updateProgressManually() {
+    const { duration, currentTime } = audioPlayer;
+    if (!duration) return;
     const percent = (currentTime / duration) * 100;
     progress.style.width = `${percent}%`;
     currentTimeEl.textContent = formatTime(currentTime);
@@ -396,7 +396,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   themeToggle.addEventListener('click', toggleTheme);
-
   moodCards.forEach(card => {
     card.addEventListener('click', () => {
       setMood(card.dataset.mood);
@@ -438,14 +437,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
   stopBtn.addEventListener('click', () => {
     if (!stopToggled) {
-      // First press: pause the track
       audioPlayer.pause();
       isPlaying = false;
       stopToggled = true;
       playBtn.innerHTML = '<i class="fas fa-play"></i>';
       document.title = 'Vibify - Mood Music Player';
     } else {
-      // Second press: resume the track
       audioPlayer.play().then(() => {
         isPlaying = true;
         stopToggled = false;
@@ -453,6 +450,23 @@ document.addEventListener('DOMContentLoaded', function () {
         document.title = `▶ ${queue[currentSongIndex].title} - Vibify`;
       }).catch(e => console.log('Playback error:', e));
     }
+  });
+
+  repeatBtn.addEventListener('click', () => {
+    audioPlayer.currentTime = 0;
+    if (!isPlaying) {
+      playSong();
+    }
+  });
+
+  back10Btn.addEventListener('click', () => {
+    audioPlayer.currentTime = Math.max(0, audioPlayer.currentTime - 10);
+    updateProgressManually();
+  });
+
+  forward10Btn.addEventListener('click', () => {
+    audioPlayer.currentTime = Math.min(audioPlayer.duration, audioPlayer.currentTime + 10);
+    updateProgressManually();
   });
 
   likeBtn.addEventListener('click', toggleLikeCurrent);
