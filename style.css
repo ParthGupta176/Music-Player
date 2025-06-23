@@ -708,6 +708,26 @@ body.romantic {
   }
 }
 
+#repeatBtn.active {
+  color: var(--primary);
+}
+
+#back10Btn i, #forward10Btn i {
+  margin: 0 4px;
+}
+
+#back10Btn, #forward10Btn {
+  font-size: 0.85rem;
+  padding: 6px 10px;
+  background-color: #2a2a2a;
+  border-radius: 6px;
+}
+
+#back10Btn:hover, #forward10Btn:hover {
+  background-color: var(--primary);
+  color: black;
+}
+
 .liked-section {
   margin: 40px 0;
 }
