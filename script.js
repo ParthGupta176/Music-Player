@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
   let isShuffled = false;
   let isRepeated = false;
   let queue = [];
+  let stopToggled = false; // Track stop button toggle state
 
   const songs = [
     {
@@ -228,20 +229,25 @@ document.addEventListener('DOMContentLoaded', function () {
     audioPlayer.load();
     updatePlayerUI();
     if (isPlaying) {
-      audioPlayer.play().catch(e => console.log('Playback error:', e));
+      playSong();
     }
     updateLikeButtonUI(song);
   }
 
   function playSong() {
-    isPlaying = true;
-    audioPlayer.play().catch(e => console.log('Playback error:', e));
-    playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-    document.title = `▶ ${queue[currentSongIndex].title} - Vibify`;
+    audioPlayer.play()
+      .then(() => {
+        isPlaying = true;
+        stopToggled = false;
+        playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        document.title = `▶ ${queue[currentSongIndex].title} - Vibify`;
+      })
+      .catch(e => console.log('Playback error:', e));
   }
 
   function pauseSong() {
     isPlaying = false;
+    stopToggled = false;
     audioPlayer.pause();
     playBtn.innerHTML = '<i class="fas fa-play"></i>';
     document.title = 'Vibify - Mood Music Player';
@@ -431,16 +437,26 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   stopBtn.addEventListener('click', () => {
-    audioPlayer.pause();
-    audioPlayer.currentTime = 0;
-    progress.style.width = '0%';
-    currentTimeEl.textContent = '0:00';
-    playBtn.innerHTML = '<i class="fas fa-play"></i>';
+    if (!stopToggled) {
+      // First press: pause the track
+      audioPlayer.pause();
+      isPlaying = false;
+      stopToggled = true;
+      playBtn.innerHTML = '<i class="fas fa-play"></i>';
+      document.title = 'Vibify - Mood Music Player';
+    } else {
+      // Second press: resume the track
+      audioPlayer.play().then(() => {
+        isPlaying = true;
+        stopToggled = false;
+        playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        document.title = `▶ ${queue[currentSongIndex].title} - Vibify`;
+      }).catch(e => console.log('Playback error:', e));
+    }
   });
 
   likeBtn.addEventListener('click', toggleLikeCurrent);
 
-  // Load preferences
   if (localStorage.getItem('theme') === 'light') {
     document.body.classList.add('light');
     themeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
