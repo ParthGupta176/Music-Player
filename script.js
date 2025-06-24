@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   const themeToggle = document.getElementById('themeToggle');
+  const icon = themeToggle.querySelector('i');
   const moodCards = document.querySelectorAll('.mood-card');
   const audioPlayer = document.getElementById('audioPlayer');
   const stopBtn = document.getElementById('stopBtn');
@@ -485,6 +486,21 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   }
+
+  function toggleTheme() {
+  document.body.classList.toggle('light');
+  const isLight = document.body.classList.contains('light');
+  themeToggle.innerHTML = isLight
+    ? '<i class="fas fa-moon"></i> Dark Mode'
+    : '<i class="fas fa-sun"></i> Light Mode';
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+}
+
+// On Load
+if (localStorage.getItem('theme') === 'light') {
+  document.body.classList.add('light');
+  themeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
+}
 
   init();
 });
