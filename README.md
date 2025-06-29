@@ -11,11 +11,6 @@ A modern, responsive music player web application. This project currently featur
 - (Planned) User authentication and playlists
 - (Planned) Persistent storage for user preferences and playlists
 
-## Demo
-
-_Add screenshots or a live site link here when available._
-
-## Getting Started
 
 ### Prerequisites
 
