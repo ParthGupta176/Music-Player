@@ -55,14 +55,17 @@ _Planned: Node.js, Express, MongoDB/MySQL (or other backend/database as chosen)_
 
 Contributions are welcome! Please open an issue to discuss what you’d like to change. When backend work starts, guidelines and API docs will be added.
 
-## License
-
-This project is licensed under the MIT License.
 
 ## Author
 
 - [Parth Gupta](https://github.com/ParthGupta176)
 
+## Contributors
+
+- [Avni Bansal](https://github.com/avnibansal009)
+- [Ragya Jain](https://github.com/ragyajain)
+- [Ridhi Kapoor](https://github.com/Ridhi-Kapoor)
+ 
 ---
 
 _Enjoy the music!_
