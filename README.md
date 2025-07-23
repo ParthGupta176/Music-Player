@@ -54,9 +54,6 @@ Contributions are welcome! Please open an issue to discuss what you’d like to 
 ## Author
 
 - [Parth Gupta](https://github.com/ParthGupta176)
-
-## Contributors
-
 - [Avni Bansal](https://github.com/avnibansal009)
 - [Ragya Jain](https://github.com/ragyajain)
 - [Ridhi Kapoor](https://github.com/Ridhi-Kapoor)
