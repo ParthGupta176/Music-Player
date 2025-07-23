@@ -361,6 +361,10 @@ document.addEventListener('DOMContentLoaded', function () {
       grid.appendChild(div);
     });
   }
+  
+  
+
+
 
   function saveLikedSongs() {
     const likedTitles = songs.filter(s => s.liked).map(s => s.title);
@@ -487,4 +491,17 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   init();
+    init();
+
+  // Scroll to Liked Songs section when clicked
+  const likedSongsLink = document.getElementById('likedSongsLink');
+  if (likedSongsLink) {
+    likedSongsLink.addEventListener('click', () => {
+      const likedSection = document.querySelector('.liked-section');
+      if (likedSection) {
+        likedSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  }
 });
+

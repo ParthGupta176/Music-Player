@@ -104,10 +104,31 @@ body.light {
   cursor: pointer;
 }
 
-.auth-buttons {
+.auth-controls {
   display: flex;
-  gap: 1rem;
+  align-items: center;
+  gap: 10px;
 }
+
+.auth-controls .btn {
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #1db954;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.auth-controls .btn:hover {
+  background-color: #17a84b;
+}
+
+.login-btn {
+  text-decoration: none;
+}
+
 
 /* Sidebar */
 .sidebar {
