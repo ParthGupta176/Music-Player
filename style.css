@@ -771,3 +771,66 @@ body.romantic {
   width: 100%;
   border-radius: 8px;
 }
+
+body.light {
+  --primary: #1db954;
+  --primary-dark: #1ed760;
+  --dark-bg: #f8f9fa;
+  --dark-secondary: #ffffff;
+  --dark-tertiary: #e9ecef;
+  --light-text: #212529;
+  --light-secondary: #6c757d;
+  --light-bg: #ffffff;
+  --light-secondary-bg: #f1f3f5;
+  --dark-text: #000000;
+  background-color: var(--light-bg);
+  color: var(--light-text);
+}
+
+body.light .main-header {
+  background-color: var(--light-secondary-bg);
+  color: var(--light-text);
+}
+
+body.light .sidebar {
+  background-color: var(--light-secondary-bg);
+  color: var(--light-text);
+}
+
+body.light .mood-card,
+body.light .song-card,
+body.light .playlist-card {
+  background-color: #ffffff;
+  color: var(--dark-text);
+}
+
+body.light .song-card:hover,
+body.light .playlist-card:hover {
+  background-color: var(--light-secondary-bg);
+}
+
+body.light .player-controls {
+  background-color: var(--light-secondary-bg);
+  border-top: 1px solid #ddd;
+}
+
+body.light .btn-player,
+body.light .btn-volume,
+body.light .btn-queue {
+  color: var(--dark-text);
+}
+
+body.light .progress-bar {
+  background-color: #ccc;
+}
+
+body.light .progress {
+  background-color: var(--primary);
+}
+
+body.light .modal-content {
+  background-color: var(--light-bg);
+  color: var(--dark-text);
+}
+
+

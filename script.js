@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   const themeToggle = document.getElementById('themeToggle');
+  const icon = themeToggle.querySelector('i');
   const moodCards = document.querySelectorAll('.mood-card');
   const audioPlayer = document.getElementById('audioPlayer');
   const stopBtn = document.getElementById('stopBtn');
@@ -35,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
     {
       title: "Blinding Lights",
       artist: "The Weeknd",
-      cover: "blinding light.jpeg",
+      cover: "img/blinding light.jpeg",
       audio: "songs/blinding lights.mp3",
       duration: "3:20",
       mood: "happy",
@@ -44,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
     {
       title: "Save Your Tears",
       artist: "The Weeknd",
-      cover: "save your tears.jpeg",
+      cover: "img/save your tears.jpeg",
       audio: "songs/save your tears.mp3",
       duration: "3:35",
       mood: "happy",
@@ -53,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
     {
       title: "Soulmate",
       artist: "badshah, arijit singh",
-      cover: "soulmate.png",
+      cover: "img/soulmate.png",
       audio: "songs/soulmate.mp3",
       duration: "3:34",
       mood: "energetic",
@@ -62,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
     {
       title: "All of Me",
       artist: "John Legend",
-      cover: "all of me.jpeg",
+      cover: "img/all of me.jpeg",
       audio: "songs/all of me.mp3",
       duration: "4:29",
       mood: "romantic",
@@ -71,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
     {
       title: "Shape of You",
       artist: "Ed Sheeran",
-      cover: "shape of you.jpeg",
+      cover: "img/shape of you.jpeg",
       audio: "songs/shape of you.mp3",
       duration: "3:53",
       mood: "happy",
@@ -80,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
     {
       title: "Believer",
       artist: "Imagine Dragons",
-      cover: "believer.jpeg",
+      cover: "img/believer.jpeg",
       audio: "songs/believer.mp3",
       duration: "3:24",
       mood: "energetic",
@@ -89,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
     {
       title: "Starboy",
       artist: "The Weeknd, Daft Punk",
-      cover: "starboy.jpg",
+      cover: "img/starboy.jpg",
       audio: "songs/starboy.mp3",
       duration: "3:50",
       mood: "energetic",
@@ -98,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function () {
     {
       title: "Perfect",
       artist: "Ed Sheeran",
-      cover: "perfect.jpeg",
+      cover: "img/perfect.jpeg",
       audio: "songs/perfect.mp3",
       duration: "4:23",
       mood: "romantic",
@@ -110,25 +111,25 @@ document.addEventListener('DOMContentLoaded', function () {
     {
       title: "Happy Hits",
       description: "Boost your mood with these tracks",
-      cover: "happy hits.png",
+      cover: "img/happy hits.png",
       songs: [0, 1, 4]
     },
     {
       title: "Chill Vibes",
       description: "Relax and unwind",
-      cover: "chill vibes.jpeg",
+      cover: "img/chill vibes.jpeg",
       songs: [2, 3, 7]
     },
     {
       title: "Workout Mix",
       description: "Pump up your energy",
-      cover: "workout mix.jpeg",
+      cover: "img/workout mix.jpeg",
       songs: [5, 6]
     },
     {
       title: "Romantic Evenings",
       description: "Perfect for date night",
-      cover: "romantic evenings.png",
+      cover: "img/romantic evenings.png",
       songs: [3, 7]
     }
   ];
@@ -489,6 +490,21 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   }
+
+  function toggleTheme() {
+  document.body.classList.toggle('light');
+  const isLight = document.body.classList.contains('light');
+  themeToggle.innerHTML = isLight
+    ? '<i class="fas fa-moon"></i> Dark Mode'
+    : '<i class="fas fa-sun"></i> Light Mode';
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+}
+
+// On Load
+if (localStorage.getItem('theme') === 'light') {
+  document.body.classList.add('light');
+  themeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
+}
 
   init();
     init();
